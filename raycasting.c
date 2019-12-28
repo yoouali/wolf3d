@@ -6,7 +6,7 @@
 /*   By: aeddaqqa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 12:34:31 by aeddaqqa          #+#    #+#             */
-/*   Updated: 2019/12/25 09:05:12 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/12/28 04:57:55 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void		draw_the_FOV_p(t_wolf *f, int worldMap[24][24])
 	t_rayc	r;
 	t_point p1;
 	t_point p2;
+	f->half += h / 2;
 
 	x = 0;
 	while (x < w)
@@ -267,7 +268,7 @@ void		draw_the_FOV_p(t_wolf *f, int worldMap[24][24])
 			floorTexX = (int)(currentFloor.x * f->tex_width) % f->tex_width;
 			floorTexY = (int)(currentFloor.y * f->tex_height) % f->tex_height;
 			f->mlx.data[y * w + x] = f->mlx.data_png[7][floorTexY * f->tex_width + floorTexX];
-			f->mlx.data[(h - y) * w + x] = f->mlx.data_png[6][floorTexY * f->tex_width + floorTexX];
+			f->mlx.data[(h - y) * w + x] = 0xffffffff;
 			y++;
 		}
 		x++;

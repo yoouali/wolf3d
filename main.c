@@ -6,7 +6,7 @@
 /*   By: aeddaqqa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 20:49:03 by aeddaqqa          #+#    #+#             */
-/*   Updated: 2019/12/25 09:07:39 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/12/28 04:17:57 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ int key_press(int key, t_wolf *f)
 		if (worldMap[(int)f->pos.x][(int)(f->pos.y + f->dir.y)] == 0)
 			f->pos.y += f->dir.y * 0.5;
 		ft_clear_data(&f->mlx.data);
+
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xxsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->yysky, f->ysky);
+
 		draw_the_FOV_p(f, worldMap);
 		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.img_ptr, 0, 0);
 	}
@@ -70,6 +75,11 @@ int key_press(int key, t_wolf *f)
 			f->pos.y -= f->dir.y * 0.5;
 		ft_clear_data(&f->mlx.data);
 		draw_the_FOV_p(f, worldMap);
+
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xxsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->yysky, f->ysky);
+
 		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.img_ptr, 0, 0);
 	}
 	if (key == 124)
@@ -78,6 +88,15 @@ int key_press(int key, t_wolf *f)
 		f->plane = rotat(f->plane, f->pos, -10);
 		ft_clear_data(&f->mlx.data);
 		draw_the_FOV_p(f, worldMap);
+		f->xsky -= 5;
+		if (f->xsky <= -1300)
+			f->xsky = 0;
+		f->xxsky = f->xsky + 1300;
+		f->yysky = f->xsky - 1300;
+		printf("%d\n", f->xsky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xxsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->yysky, f->ysky);
 		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.img_ptr, 0, 0);
 	}
 
@@ -86,6 +105,15 @@ int key_press(int key, t_wolf *f)
 		f->dir = rotat(f->dir, f->pos, 10);
 		f->plane = rotat(f->plane, f->pos, 10);
 		ft_clear_data(&f->mlx.data);
+		f->xsky += 5;
+		if (f->xsky >= 1300)
+			f->xsky = 0;
+		f->xxsky = f->xsky + 1300;
+		f->yysky = f->xsky - 1300;
+		printf("%d\n", f->xsky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xxsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->yysky, f->ysky);
 		draw_the_FOV_p(f, worldMap);
 		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.img_ptr, 0, 0);
 	}
@@ -103,6 +131,11 @@ int key_press(int key, t_wolf *f)
 		if (worldMap[(int)(f->pos.x)][(int)(f->pos.y - f->dir.x)] == 0)
 			f->pos.y -= f->dir.x * 0.5;
 		ft_clear_data(&f->mlx.data);
+
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xxsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->yysky, f->ysky);
+
 		draw_the_FOV_p(f, worldMap);
 		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.img_ptr, 0, 0);
 	}
@@ -114,6 +147,11 @@ int key_press(int key, t_wolf *f)
 		if (worldMap[(int)(f->pos.x)][(int)(f->pos.y + f->dir.x)] == 0)
 			f->pos.y += f->dir.x * 0.5;
 		ft_clear_data(&f->mlx.data);
+
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->xxsky, f->ysky);
+		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.png[8], f->yysky, f->ysky);
+
 		draw_the_FOV_p(f, worldMap);
 		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.img_ptr, 0, 0);
 	}
@@ -153,6 +191,7 @@ int main()
 	t_wolf	f;
 	int		x;
 	int		a, b;
+	int		c, d;
 
 	x = 0;
 	f.mlx.mlx_ptr = mlx_init();
@@ -172,6 +211,7 @@ int main()
 	f.mlx.png[5] = mlx_png_file_to_image(f.mlx.mlx_ptr, "wal6.png", &a, &b);
 	f.mlx.png[6] = mlx_png_file_to_image(f.mlx.mlx_ptr, "wal7.png", &a, &b);
 	f.mlx.png[7] = mlx_png_file_to_image(f.mlx.mlx_ptr, "wal8.png", &a, &b);
+	f.mlx.png[8] = mlx_png_file_to_image(f.mlx.mlx_ptr, "sky.png", &c, &d);
 	f.mlx.data_png[0] = (int*)mlx_get_data_addr(f.mlx.png[0], &f.mlx.bpp, &f.mlx.size_line, &f.mlx.endian);
 	f.mlx.data_png[1] = (int*)mlx_get_data_addr(f.mlx.png[1], &f.mlx.bpp, &f.mlx.size_line, &f.mlx.endian);
 	f.mlx.data_png[2] = (int*)mlx_get_data_addr(f.mlx.png[2], &f.mlx.bpp, &f.mlx.size_line, &f.mlx.endian);
@@ -189,6 +229,10 @@ int main()
 	f.plane.y = 0.60;
 	f.tex_width = a;
 	f.tex_height = b;
+	f.xsky = 0;
+	f.ysky = 0;
+	f.xxsky = w;
+	f.half = h;
 /*	x = 0;
 	while (x < a)
 	{
@@ -201,6 +245,7 @@ int main()
 		x++;
 	}*/
 	draw_the_FOV_p(&f, worldMap);
+	mlx_put_image_to_window(f.mlx.mlx_ptr, f.mlx.win_ptr, f.mlx.png[8], f.xsky, f.ysky);
 	mlx_put_image_to_window(f.mlx.mlx_ptr, f.mlx.win_ptr, f.mlx.img_ptr, 0, 0);
 	//printf("color :%d",f.mlx.png[1][3]);
 	/*************************MINI_MAP*********************/

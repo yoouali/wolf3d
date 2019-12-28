@@ -6,7 +6,7 @@
 /*   By: aeddaqqa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 20:46:20 by aeddaqqa          #+#    #+#             */
-/*   Updated: 2019/12/24 05:44:05 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/12/28 04:17:50 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <SDL.h>
 # include <SDL_mixer.h>
 # include <math.h>
-# define w 1024
+# define w 1300
 # define h 700
 # define U 256
 # define FOV 60
@@ -77,8 +77,13 @@ typedef struct	s_wolf
 	t_point		dir;
 	t_point		pos;
 	t_point		plane;
+	int			xsky;
+	int			ysky;
+	int			xxsky;
+	int			yysky;
 	int			tex_width;
 	int			tex_height;
+	int			half;
 }				t_wolf;
 
 typedef struct	s_rayc
@@ -99,6 +104,7 @@ typedef struct	s_rayc
 	int			draw_end;
 	int			color;
 	double		wallX;
+	int			half;
 }				t_rayc;
 
 typedef struct	s_bres
