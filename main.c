@@ -6,7 +6,7 @@
 /*   By: aeddaqqa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 20:49:03 by aeddaqqa          #+#    #+#             */
-/*   Updated: 2019/12/28 04:17:57 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/12/30 16:53:10 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int		worldMap[mapw][maph]=
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
+
 /*int		close(void *param)
 {
 	(void)param;
@@ -49,6 +50,8 @@ int		worldMap[mapw][maph]=
 
 int key_press(int key, t_wolf *f)
 {
+	double		oldx = f->pos.x;
+	double		oldy = f->pos.y;
 	if (key == 53)
 		exit(0);
 	if (key == UP)
@@ -155,6 +158,11 @@ int key_press(int key, t_wolf *f)
 		draw_the_FOV_p(f, worldMap);
 		mlx_put_image_to_window(f->mlx.mlx_ptr, f->mlx.win_ptr, f->mlx.img_ptr, 0, 0);
 	}
+	if (abs((int)(f->si.x - f->pos.x)) <= 1 && abs((int)(f->si.y - f->pos.y)))
+	{
+		f->si.x = oldx;
+		f->si.y = oldy;
+	}
 	//(18.475588, pos.x=18.475588 , pos.y=2.579425 , dir.x=-0.000000, dir.y=1.000000)
 	if (f->musi == 1 && f->pos.x > 18 && f->pos.x < 19 && f->pos.y > 2 && f->pos.y < 3)
 	{
@@ -233,6 +241,8 @@ int main()
 	f.ysky = 0;
 	f.xxsky = w;
 	f.half = h;
+	f.si.x = 8;
+	f.si.y = 8;
 /*	x = 0;
 	while (x < a)
 	{

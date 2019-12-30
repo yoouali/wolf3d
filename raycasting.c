@@ -6,23 +6,57 @@
 /*   By: aeddaqqa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 12:34:31 by aeddaqqa          #+#    #+#             */
-/*   Updated: 2019/12/28 04:57:55 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/12/30 16:53:13 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
+
 void		draw_the_FOV_p(t_wolf *f, int worldMap[24][24])
 {
 	int		x;
+	int		y;
 	t_rayc	r;
 	t_point p1;
 	t_point p2;
-	f->half += h / 2;
+	double	Zbuf[w];
+	
+/*	y = 0;
+	while (y < h)
+	{
+		double	raydirx0, raydirx1, raydiry0, raydiry1;
+		raydirx0 = f->dir.x - f->plane.x;
+		raydiry0 = f->dir.x - f->plane.y;
+		raydirx1 = f->dir.x + f->plane.x;
+		raydiry1 = f->dir.x + f->plane.y;
+		int		p = y - h/2;
+		double	posz = 0.5 * h;
+		double	rowdis = posz / p;
+		double	floorsx = rowdis * (raydirx1 - raydirx0) / w;
+		double	floorsy = rowdis * (raydiry1 - raydiry0) / w;
+		double	floorx = f->pos.x + rowdis * raydirx0;
+		double	floory = f->pos.y + rowdis * raydiry0;
+		x = 0;
+		while (x < w)
+		{
+			int	cellx = (int)(floorx);
+			int	celly = (int)(floory);
+			int tx = (int)((floorx - cellx) * f->tex_width) & (f->tex_width - 1);
+			int ty = (int)((floory - celly) * f->tex_height) &(f->tex_height - 1);
+			floorx += floorsx;
+			floory += floorsy;
+			f->mlx.data[y * w + x] = f->mlx.data_png[5][ty * f->tex_width + tx];
+			f->mlx.data[(h - y - 1) * w + x] = 0xffffffff;
+			x++;
+		}
+		y++;
+	}*/
 
 	x = 0;
 	while (x < w)
 	{
+
 		r.camera = 2 * x /(double)w - 1;
 		r.rayDir.x = f->dir.x + f->plane.x * r.camera;
 		r.rayDir.y = f->dir.y + f->plane.y * r.camera;
@@ -80,6 +114,7 @@ void		draw_the_FOV_p(t_wolf *f, int worldMap[24][24])
 		if(r.draw_end >= h)
 			r.draw_end = h - 1;
 		r.color = 0;
+		Zbuf[x] = r.perpWallDist;
 		int k = 0;
 		if (worldMap[r.mapX][r.mapY] == 1)
 		{
@@ -92,7 +127,7 @@ void		draw_the_FOV_p(t_wolf *f, int worldMap[24][24])
 			int texX = (int)(r.wallX * f->tex_width);
 			if ((r.side == 0 && r.rayDir.x > 0) || (r.side == 1 && r.rayDir.y < 0))
 				texX = f->tex_width - texX - 1;
-			int y = r.draw_start;
+			y = r.draw_start;
 			while (y < r.draw_end)
 			{
 				k = 1;
@@ -272,5 +307,45 @@ void		draw_the_FOV_p(t_wolf *f, int worldMap[24][24])
 			y++;
 		}
 		x++;
+	}
+	double	spx = f->si.x - f->pos.x;
+	double	spy = f->si.y - f->pos.y;
+	double	invdet = 1.0 / (f->plane.x * f->dir.y - f->dir.x * f->plane.y);
+	double	tranx = invdet * (f->dir.y * spx - f->dir.x * spy);
+	double	trany = invdet * (-f->plane.y * spx + f->plane.x * spy);
+	int		sprsc = (int)((w / 2) * (1 + tranx / trany));
+	int		sph = abs((int)(h / trany));
+	int		drawsty = -sph / 2 + h / 2;
+	if (drawsty < 0)
+		drawsty = 0;
+	int	draweny = sph / 2 + h / 2;
+	if (draweny >= h)
+		draweny = h - 1;
+	int		spw = abs((int)(h / trany));
+	int		drawstx = -spw / 2 + sprsc;
+	if (drawstx < 0)
+		drawstx = 0;
+	int	drawenx = spw / 2 + sprsc;
+	if (drawenx >= w)
+		drawenx = w - 1;
+
+	int		sptr = drawstx;
+	while (sptr < drawenx)
+	{
+		int		texx = (int)(256 * (sptr - (-spw / 2 + sprsc)) * f->tex_width / spw) / 256;
+		if (trany > 0 && sptr > 0 && sptr < w && trany < Zbuf[sptr])
+		{
+			int		y = drawsty;
+			while (y < draweny)
+			{
+				int	d = (y) * 256 - h * 128 + sph * 128;
+				int	texy = ((d * f->tex_height) / sph) / 256;
+ 				int alpha = f->mlx.data_png[5][f->tex_width * texy + texx] >> 24;
+				if (alpha == 0)
+					f->mlx.data[y * w + sptr] = f->mlx.data_png[5][f->tex_width * texy + texx];
+				y++;
+			}
+		}
+		sptr++;
 	}
 }

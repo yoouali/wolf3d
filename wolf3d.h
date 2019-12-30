@@ -6,7 +6,7 @@
 /*   By: aeddaqqa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 20:46:20 by aeddaqqa          #+#    #+#             */
-/*   Updated: 2019/12/28 04:17:50 by yoouali          ###   ########.fr       */
+/*   Updated: 2019/12/30 16:53:12 by yoouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@
 # define DOWN 1
 # define RIGHT 2
 # define LEFT 0
+
+typedef	struct	st
+{
+	double	x;
+	double	y;
+	int		n;
+}				t_st;
 
 
 typedef	struct	s_point
@@ -84,6 +91,7 @@ typedef struct	s_wolf
 	int			tex_width;
 	int			tex_height;
 	int			half;
+	t_st		si;
 }				t_wolf;
 
 typedef struct	s_rayc
@@ -122,7 +130,7 @@ typedef struct	s_bres
 }				t_bres;
 
 
-int			 key_press(int key, t_wolf *f);
+int			 	key_press(int key, t_wolf *f);
 t_point			rotat(t_point p, t_point p2, double angle);
 t_point			ft_find_ip(t_point pos, t_point dir);
 void			dda(t_point p1, t_point p2, t_mlx *mlx, int color);
